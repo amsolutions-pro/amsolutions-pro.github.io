@@ -1,0 +1,116 @@
+/* ============================================================
+   Thème Stellantis (psa-business-theme) pour l'aperçu Markdown
+   de Visual Studio Code.
+   Référence : github.com/Stellantis/psa-business-theme
+   ============================================================ */
+
+body {
+  font-family: 'Arimo', Arial, sans-serif;
+  font-size: 14px;
+  color: #666666;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Collator', 'Arimo', Arial, sans-serif;
+  font-weight: bold;
+  padding-bottom: 9px;
+}
+
+h1 {
+  color: #1B5DAF;
+  font-size: 26px;
+  border-bottom: 2px solid #428BCA;
+}
+
+h2 {
+  color: #1B5DAF;
+  font-size: 22px;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+h3 {
+  color: #123E75;
+  font-size: 18px;
+}
+
+h4 {
+  color: #1B5DAF;
+  font-style: italic;
+  font-size: 16px;
+}
+
+a {
+  color: #428BCA;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #1B5DAF;
+  text-decoration: underline;
+}
+
+strong {
+  color: #4D4D4D;
+}
+
+blockquote {
+  border-left: 4px solid #428BCA;
+  background-color: #F8F8F8;
+  color: #666666;
+  padding: 8px 16px;
+  margin-left: 0;
+}
+
+code {
+  background-color: #F8F8F8;
+  color: #C0392B;
+  border: 1px solid #DDDDDD;
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+pre {
+  background-color: #F8F8F8;
+  border: 1px solid #DDDDDD;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+pre code {
+  border: none;
+  color: #4D4D4D;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  background-color: #428BCA;
+  color: #FFFFFF;
+  font-family: 'Collator', 'Arimo', Arial, sans-serif;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+td {
+  border: 1px solid #DDDDDD;
+  padding: 6px 12px;
+}
+
+tr:nth-child(even) td {
+  background-color: #F8F8F8;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #428BCA;
+}
+
+/* Encadrés type "callout" si vous utilisez des citations imbriquées */
+blockquote blockquote {
+  border-left-color: #EFA64C;
+  background-color: #FDF4DF;
+}
