@@ -109,32 +109,48 @@ pre code {
   font-size: 13px;
 }
 
-/* ---------- Tableaux ---------- */
+/* ---------- Tableaux : compacts, sobres, contenus dans la page ---------- */
 
 table {
   border-collapse: collapse;
-  width: 100%;
-  margin: 16px 0;
-  font-size: 13px;
+  max-width: 100%;
+  width: auto;
+  margin: 12px 0;
+  font-size: 11px;            /* plus petit que le texte courant */
+  table-layout: auto;
 }
 
 th {
-  background-color: #1B5DAF;
-  color: #FFFFFF;
-  font-family: 'Collator', 'Arimo', Arial, sans-serif;
-  padding: 9px 12px;
+  background-color: #F8F8F8;  /* en-tete discret, plus de bandeau bleu */
+  color: #4D4D4D;
+  font-family: 'Arimo', Arial, sans-serif;
+  font-weight: bold;
+  padding: 2px 8px;           /* lignes serrees */
   text-align: left;
-  border: 1px solid #1B5DAF;
+  border: 1px solid #DDDDDD;
+  border-bottom: 2px solid #CCCCCC;
 }
 
 td {
-  border: 1px solid #DDDDDD;
-  padding: 7px 12px;
+  border: 1px solid #E5E5E5;
+  padding: 2px 8px;           /* aucun espace vertical superflu */
   vertical-align: top;
+  line-height: 1.35;
+  word-break: break-word;     /* coupe les identifiants longs */
+  overflow-wrap: anywhere;    /* jamais de depassement de page */
 }
 
-tr:nth-child(even) td { background-color: #F8F8F8; }
-tr:hover td { background-color: #EAF2FA; }
+/* zebrage et survol supprimes : rendu neutre */
+tr:nth-child(even) td { background-color: transparent; }
+
+/* le code dans les cellules reste lisible mais discret */
+td code, th code {
+  font-size: 10px;
+  padding: 0 3px;
+  border: none;
+  background-color: #F4F4F4;
+  color: #4D4D4D;
+}
 
 /* ---------- Listes ---------- */
 
