@@ -26,6 +26,12 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding-top:1rem;padding
 <form id="o" onsubmit="return false">
 <p><label for="projet"><strong>Votre projet</strong></label><br>
 <select id="projet"><option value="abri">Abri de jardin</option><option value="piscine">Piscine</option></select></p>
+<p><label for="adr"><strong>Adresse du terrain</strong> (facultatif)</label><br>
+<small>Pour repérer la zone d'urbanisme et un éventuel secteur protégé. Plus l'adresse est précise, plus le résultat est fiable ; une commune seule donne seulement le type de document.</small><br>
+<input id="adr" type="text" autocomplete="street-address" placeholder="12 rue de la Paix, 75002 Paris" style="width:100%">
+<button type="button" id="loc" style="margin-top:.5rem">Chercher cette adresse</button></p>
+<div id="loc-res" aria-live="polite"></div>
+<p class="verif">En cliquant, votre adresse est envoyée directement aux services publics de l'IGN (Géoplateforme) pour la recherche. Elle n'est ni enregistrée ni transmise à ce site.</p>
 <p><label for="protege"><strong>Votre terrain est-il en secteur protégé ?</strong></label><br>
 <small>Abords d'un monument historique, site patrimonial remarquable, site classé. Le service urbanisme de votre mairie vous le dit.</small><br>
 <select id="protege"><option value="non">Non</option><option value="oui">Oui</option><option value="nsp">Je ne sais pas</option></select></p>
@@ -70,6 +76,23 @@ function piscine(type,prot,s,couv,dur){
   if(s>10) return r("DP","Bassin de plus de 10 m² jusqu'à 100 m² : déclaration préalable.");
   return prot? r("DP","Bassin jusqu'à 10 m² en secteur protégé : déclaration préalable.") : r("aucune","Bassin jusqu'à 10 m² : aucune autorisation d'urbanisme.");
 }
+
+function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+function analyserLocalisation(doc,zone,sup,muni){
+  var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
+  var d=(doc||[])[0],z=(zone||[])[0],m=(muni||[])[0];
+  if(d){L.push("Document d'urbanisme : "+esc(d.du_type||"document")+(d.grid_title?" de "+esc(d.grid_title):"")+".");}
+  else if(m&&m.is_rnu){L.push("Cette commune est au règlement national d'urbanisme (pas de PLU propre).");}
+  else{L.push("Aucun document d'urbanisme n'a été trouvé pour ce point dans le Géoportail de l'urbanisme (il peut exister ailleurs : demandez à la mairie).");}
+  if(z){L.push("Zone : "+esc(z.libelle)+(z.libelong?" – "+esc(z.libelong):"")+(z.typezone?" (type "+esc(z.typezone)+")":"")+(z.nomfic?". Règlement écrit : fichier « "+esc(z.nomfic)+" »":"")+".");}
+  (sup||[]).forEach(function(f){var t=String(f.suptype||"").toLowerCase();if(t==="ac1")ac1++;else if(t==="ac4")ac4++;else if(t==="ac2")ac2++;});
+  if(ac4){prot="oui";L.push("Ce point est dans un site patrimonial remarquable : secteur protégé.");}
+  if(ac1){prot=prot==="oui"?"oui":"incertain";L.push("Ce point est dans un périmètre de protection autour d'un monument historique (abords). Le périmètre exact dépend de la visibilité : à confirmer en mairie.");}
+  if(ac2){prot=prot==="oui"?"oui":"incertain";L.push("Ce point touche un site classé ou inscrit : renseignez-vous auprès de la mairie.");}
+  if(ac4&&!d)L.push("Un site patrimonial remarquable est souvent régi par un règlement spécifique (plan de sauvegarde et de mise en valeur, ou plan de valorisation) qui n'apparaît pas toujours ici : demandez-le à la mairie.");
+  if(prot==="aucun")L.push("Aucun périmètre protégé trouvé dans les données de l'État. Ces données peuvent être incomplètes : confirmez auprès du service urbanisme de la mairie.");
+  return {protege:prot,lignes:L};
+}
 function fmt(x){return (Math.round(x*100)/100).toString().replace(".",",");}
 function calcul(v){
   if(v.protege==="nsp") return {err:"Renseignez-vous d'abord auprès du service urbanisme de votre mairie : en secteur protégé, les règles ne sont pas les mêmes."};
@@ -85,6 +108,34 @@ if(typeof document!=="undefined"){
   var $=function(i){return document.getElementById(i)};
   function maj(){var p=$("projet").value;$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("p-dur-bloc").hidden=$("p-type").value!=="hs";}
   ["projet","p-type"].forEach(function(i){$(i).addEventListener("change",maj)});maj();
+
+  var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
+  function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
+  function gpu(path,lon,lat){return jget(API+path+"?geom="+encodeURIComponent(JSON.stringify({type:"Point",coordinates:[lon,lat]}))).then(function(d){return d.features.map(function(f){return f.properties})})}
+  var choix=[];
+  function analyse(i){
+    var c=choix[i],box=$("loc-res");box.textContent="Recherche des données d'urbanisme…";
+    Promise.all([gpu("document",c.lon,c.lat),gpu("zone-urba",c.lon,c.lat),gpu("assiette-sup-s",c.lon,c.lat),jget(API+"municipality?insee="+encodeURIComponent(c.citycode)).then(function(d){return d.features.map(function(f){return f.properties})})]).then(function(r){
+      var a=analyserLocalisation(r[0],r[1],r[2],r[3]);
+      if(a.protege==="oui")$("protege").value="oui";else if(a.protege==="incertain")$("protege").value="nsp";
+      var h="<p><strong>"+esc(c.label)+"</strong></p><ul>"+a.lignes.map(function(x){return "<li>"+x+"</li>"}).join("")+"</ul>";
+      if(a.protege==="oui")h+="<p>La question « secteur protégé » ci-dessous a été réglée sur <strong>Oui</strong>.</p>";
+      else if(a.protege==="incertain")h+="<p>La question « secteur protégé » ci-dessous a été réglée sur <strong>Je ne sais pas</strong> : confirmez avec votre mairie avant de vous fier au résultat.</p>";
+      h+="<p class='verif'>Sources : Géoportail de l'urbanisme (IGN) et Géoplateforme. Indicatif, sans valeur juridique.</p>";
+      box.innerHTML=h;
+    }).catch(function(){box.textContent="Les services de l'État ne répondent pas pour l'instant. Renseignez-vous auprès du service urbanisme de votre mairie.";});
+  }
+  $("loc").addEventListener("click",function(){
+    var q=$("adr").value.trim(),box=$("loc-res");if(q.length<3){box.textContent="Saisissez une adresse ou une commune.";return;}
+    box.textContent="Recherche de l'adresse…";
+    jget(GEO+"?limit=5&q="+encodeURIComponent(q)).then(function(d){
+      choix=d.features.map(function(f){return {label:f.properties.label,lon:f.geometry.coordinates[0],lat:f.geometry.coordinates[1],citycode:f.properties.citycode,type:f.properties.type}});
+      if(!choix.length){box.textContent="Adresse introuvable. Essayez avec la commune ou un code postal.";return;}
+      if(choix.length===1){analyse(0);return;}
+      var h="<p>Plusieurs résultats, choisissez le vôtre :</p><ul style='list-style:none;padding:0'>"+choix.map(function(c,i){return "<li><button type='button' data-i='"+i+"' style='margin:.2rem 0;width:100%;text-align:left'>"+esc(c.label)+"</button></li>"}).join("")+"</ul>";
+      box.innerHTML=h;box.querySelectorAll("button").forEach(function(b){b.addEventListener("click",function(){analyse(+b.getAttribute("data-i"))})});
+    }).catch(function(){box.textContent="Le service de recherche d'adresse ne répond pas. Vous pouvez répondre aux questions sans adresse.";});
+  });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
     var out=calcul({projet:$("projet").value,protege:$("protege").value,atype:$("a-type").value,l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:$("p-type").value,ps:n("p-s"),pc:$("p-c").value,pdur:$("p-dur").value});
@@ -100,7 +151,7 @@ if(typeof document!=="undefined"){
     box.innerHTML=h;
   });
 }
-if(typeof module!=="undefined")module.exports={calcul:calcul};
+if(typeof module!=="undefined")module.exports={calcul:calcul,analyserLocalisation:analyserLocalisation};
 </script>
 <p class="verif">Cet outil reprend les règles des pages Service-Public relues le 25/10/2026 (abri de jardin, piscine privative). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 </main>
