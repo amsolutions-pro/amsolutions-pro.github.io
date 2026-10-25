@@ -6,23 +6,43 @@
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 <link rel="canonical" href="https://amsolutions-pro.github.io/declarer-travaux/mentions-legales/">
 <style>
-:root{--bg:#fff;--fg:#1d2433;--mut:#5a6477;--acc:#0b5cad;--line:#d9dee8}
-@media(prefers-color-scheme:dark){:root{--bg:#14171f;--fg:#e8ebf2;--mut:#a5adbd;--acc:#7db7f2;--line:#2d3342}}
-body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,sans-serif}
-main,header,footer{max-width:46rem;margin:auto;padding:0 16px}
-header{padding-top:16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
-header a{color:var(--fg);font-weight:700;text-decoration:none}
-a{color:var(--acc)} table{border-collapse:collapse;width:100%;margin:1rem 0}
-th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
-.reponse{font-size:1.15rem;border-left:4px solid var(--acc);padding:.2rem 1rem}
-select,input,textarea,button{font:inherit;font-size:16px;padding:.5rem .6rem;max-width:100%;box-sizing:border-box}button{background:var(--acc);color:var(--bg);border:0;border-radius:6px;font-weight:700;cursor:pointer}
-.verif,footer{color:var(--mut);font-size:.9rem}
-.brouillon{background:#ffe9a8;color:#3a2c00;padding:.5rem 1rem;font-weight:700}
-footer{border-top:1px solid var(--line);margin-top:3rem;padding-top:1rem;padding-bottom:2rem}
-</style></head><body>
-<header><a href=".././">Déclarer ses travaux</a></header>
+:root{--c-fond:#FAF8F4;--c-surface:#FFFFFF;--c-texte:#1C2420;--c-texte-doux:#4F5B55;--c-trait:#D8D3C8;--c-trait-fort:#7B857F;--c-action:#1F5A4A;--c-action-texte:#FFFFFF;--c-action-teinte:#E3EFEA;
+--serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;--sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif}
+@media(prefers-color-scheme:dark){:root{--c-fond:#131815;--c-surface:#1B221E;--c-texte:#E9EDEA;--c-texte-doux:#A9B4AD;--c-trait:#333D37;--c-trait-fort:#7F8B84;--c-action:#7BD0B0;--c-action-texte:#0B1F18;--c-action-teinte:#1F3A30}}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--c-fond);color:var(--c-texte);font:17px/1.6 var(--sans)}
+a{color:var(--c-action);text-underline-offset:.18em}
+.cont{max-width:46rem;margin:0 auto;padding:0 16px}
+.entete{border-bottom:1px solid var(--c-trait);background:var(--c-surface)}
+.entete .cont{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;padding-top:12px;padding-bottom:12px}
+.marque{display:inline-flex;align-items:center;min-height:44px;font-family:var(--serif);font-weight:700;font-size:1.25rem;color:var(--c-texte);text-decoration:none}
+.statut{font-size:.875rem;color:var(--c-texte-doux);border:1px solid var(--c-trait-fort);border-radius:999px;padding:2px 11px}
+main.cont{padding-top:32px}
+h1,h2{font-family:var(--serif);line-height:1.2}
+h1{font-size:clamp(1.875rem,6.5vw,2.625rem);font-weight:700;margin:0 0 16px;letter-spacing:-.01em;text-wrap:balance}
+h2{font-size:1.5rem;margin:2rem 0 .75rem}
+.reponse{font-size:1.1875rem;border-left:4px solid var(--c-action);padding:.2rem 1rem;margin:0 0 1.25rem;text-wrap:pretty}
+table{border-collapse:collapse;width:100%;margin:1rem 0}
+th,td{border:1px solid var(--c-trait-fort);padding:.5rem .6rem;text-align:left;vertical-align:top}
+th{background:var(--c-surface)}
+.verif{color:var(--c-texte-doux);font-size:.875rem}
+.brouillon{background:#FFE9A8;color:#3A2C00;padding:.5rem 1rem;font-weight:700;margin:0}
+a:focus-visible,button:focus-visible,summary:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--c-action);outline-offset:2px}
+select,input[type=text],input[type=email],input[type=number],textarea{font:inherit;font-size:16px;color:var(--c-texte);background:var(--c-surface);border:1px solid var(--c-trait-fort);border-radius:6px;padding:.55rem .7rem;max-width:100%;min-height:48px}
+button{font:inherit;font-size:16px;cursor:pointer}
+.go,button[type=submit]{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 20px;border-radius:6px;font-weight:700;background:var(--c-action);color:var(--c-action-texte);border:2px solid var(--c-action)}
+.pied{border-top:1px solid var(--c-trait);margin-top:48px;background:var(--c-surface)}
+.pied .cont{padding-top:24px;padding-bottom:32px;color:var(--c-texte-doux);font-size:.875rem}
+.pied p{margin:0 0 12px}
+.pied nav{display:flex;flex-wrap:wrap;gap:0 24px}
+.pied nav a{display:inline-flex;align-items:center;min-height:44px}
+@media(min-width:640px){.cont{padding:0 24px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
-<main><h1>Mentions légales</h1>
+</style></head><body>
+<header class="entete"><div class="cont"><a class="marque" href=".././">Déclarer ses travaux</a><span class="statut">Site indépendant</span></div></header>
+
+<main class="cont"><h1>Mentions légales</h1>
 <p>Site édité par AM Solutions.</p>
 <p>Contact : <a href="../contact/">formulaire de contact</a>.</p>
 <p>Hébergeur : GitHub, Inc. (GitHub Pages), San Francisco, États-Unis ; coordonnées complètes sur github.com.</p>
@@ -30,9 +50,8 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding-top:1rem;padding
 <p>Outil de formalité : si vous saisissez une adresse, elle est envoyée depuis votre navigateur aux services publics de l'IGN (Géoplateforme et Géoportail de l'urbanisme) pour trouver la zone d'urbanisme ; elle n'est ni enregistrée ni transmise à ce site.</p>
 <p>Ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience.</p>
 </main>
-<footer>Information générale, sans valeur de conseil juridique : seule la mairie de votre commune
-(service urbanisme) peut confirmer la règle applicable à votre terrain.
-<a href="../mentions-legales/">Mentions légales</a> ·
-<a href="../sources/">Sources</a> ·
-<a href="../contact/">Contact</a></footer>
+<footer class="pied"><div class="cont">
+<p>Site indépendant : ce n'est pas un service de l'État ni d'une mairie. Information générale, sans valeur de conseil juridique : seule la mairie de votre commune (service urbanisme) peut confirmer la règle applicable à votre terrain.</p>
+<nav aria-label="Pied de page"><a href="../mentions-legales/">Mentions légales</a><a href="../sources/">Sources</a><a href="../contact/">Contact</a></nav>
+</div></footer>
 </body></html>
