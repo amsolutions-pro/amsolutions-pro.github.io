@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact : signaler une erreur ou poser une question</title>
+<meta name="description" content="Une erreur, une source manquante, une question sur le site ? Écrivez-nous ici.">
+<link rel="canonical" href="https://amsolutions-pro.github.io/declarer-travaux/contact/">
+<style>
+:root{--bg:#fff;--fg:#1d2433;--mut:#5a6477;--acc:#0b5cad;--line:#d9dee8}
+@media(prefers-color-scheme:dark){:root{--bg:#14171f;--fg:#e8ebf2;--mut:#a5adbd;--acc:#7db7f2;--line:#2d3342}}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,sans-serif}
+main,header,footer{max-width:46rem;margin:auto;padding:0 16px}
+header{padding-top:16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+header a{color:var(--fg);font-weight:700;text-decoration:none}
+a{color:var(--acc)} table{border-collapse:collapse;width:100%;margin:1rem 0}
+th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+.reponse{font-size:1.15rem;border-left:4px solid var(--acc);padding:.2rem 1rem}
+.verif,footer{color:var(--mut);font-size:.9rem}
+.brouillon{background:#ffe9a8;color:#3a2c00;padding:.5rem 1rem;font-weight:700}
+footer{border-top:1px solid var(--line);margin-top:3rem;padding-top:1rem;padding-bottom:2rem}
+</style></head><body>
+<header><a href=".././">Déclarer ses travaux</a></header>
+
+<main><h1>Contact</h1>
+<p class="reponse">Une erreur, une source manquante, une question ? Écrivez-nous ici. Nous lisons chaque message et nous corrigeons le site quand vous avez raison.</p>
+<p>Information générale, pas un conseil juridique : nous ne pouvons pas traiter votre dossier personnel. Pour cela, adressez-vous au service urbanisme de votre mairie.</p>
+<form id="cf" action="https://docs.google.com/forms/d/e/1FAIpQLSc00FzuhBMtISXDJy-YpcKKP0pgAYP7V9-ACruifWH6WS3r6A/formResponse" method="POST">
+<p><label for="m">Votre message</label><br><small>Indiquez la page concernée et, si possible, la source officielle.</small><br>
+<textarea id="m" name="entry.727083192" required maxlength="4000" rows="6" style="width:100%"></textarea></p>
+<p><label for="e">Votre e-mail (facultatif)</label><br><small>Utilisé uniquement pour vous répondre. Laissez vide si vous n'attendez pas de réponse.</small><br>
+<input id="e" type="email" name="entry.653824117" autocomplete="email" style="width:100%"></p>
+<p><label for="p">Page concernée (facultatif)</label><br>
+<input id="p" type="text" name="entry.1789466068" maxlength="180" style="width:100%"></p>
+<p><button type="submit">Envoyer</button></p>
+<p class="verif">En envoyant ce formulaire, vous acceptez que votre message soit traité par notre service de formulaires (Google Forms) et lu par l'éditeur. Voir les <a href="../mentions-legales/">mentions légales</a>.</p>
+</form>
+<script>
+document.getElementById("cf").addEventListener("submit",function(e){e.preventDefault();var f=this,b=f.querySelector("button"),p=document.getElementById("p");p.value="[Déclarer ses travaux] "+p.value;b.disabled=true;fetch(f.action,{method:"POST",mode:"no-cors",body:new URLSearchParams(new FormData(f))}).then(function(){location.assign("merci/")}).catch(function(){b.disabled=false;f.submit()})});
+</script>
+</main>
+<footer>Information générale, sans valeur de conseil juridique : seule la mairie de votre commune
+(service urbanisme) peut confirmer la règle applicable à votre terrain.
+<a href="../mentions-legales/">Mentions légales</a> ·
+<a href="../sources/">Sources</a> ·
+<a href="../contact/">Contact</a></footer>
+</body></html>
