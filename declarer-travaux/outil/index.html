@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Outil : quelle formalité pour mon abri de jardin ou ma piscine ?</title>
+<meta name="description" content="Répondez à quelques questions (surface, couverture, secteur protégé) : l&#x27;outil indique la formalité, le formulaire à utiliser et le délai, avec la source officielle.">
+<link rel="canonical" href="https://amsolutions-pro.github.io/declarer-travaux/outil/">
+<style>
+:root{--bg:#fff;--fg:#1d2433;--mut:#5a6477;--acc:#0b5cad;--line:#d9dee8}
+@media(prefers-color-scheme:dark){:root{--bg:#14171f;--fg:#e8ebf2;--mut:#a5adbd;--acc:#7db7f2;--line:#2d3342}}
+body{margin:0;background:var(--bg);color:var(--fg);font:17px/1.6 system-ui,sans-serif}
+main,header,footer{max-width:46rem;margin:auto;padding:0 16px}
+header{padding-top:16px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+header a{color:var(--fg);font-weight:700;text-decoration:none}
+a{color:var(--acc)} table{border-collapse:collapse;width:100%;margin:1rem 0}
+th,td{border:1px solid var(--line);padding:.45rem .6rem;text-align:left;vertical-align:top}
+.reponse{font-size:1.15rem;border-left:4px solid var(--acc);padding:.2rem 1rem}
+select,input,textarea,button{font:inherit;font-size:16px;padding:.5rem .6rem;max-width:100%;box-sizing:border-box}button{background:var(--acc);color:var(--bg);border:0;border-radius:6px;font-weight:700;cursor:pointer}
+.verif,footer{color:var(--mut);font-size:.9rem}
+.brouillon{background:#ffe9a8;color:#3a2c00;padding:.5rem 1rem;font-weight:700}
+footer{border-top:1px solid var(--line);margin-top:3rem;padding-top:1rem;padding-bottom:2rem}
+</style></head><body>
+<header><a href=".././">Déclarer ses travaux</a></header>
+
+<main><h1>Quelle formalité pour mon projet ?</h1>
+<p class="reponse">Choisissez votre projet et répondez aux questions : vous obtenez la formalité, le formulaire à utiliser et le délai. Calcul fait dans votre navigateur ; rien n'est envoyé ni enregistré.</p>
+<form id="o" onsubmit="return false">
+<p><label for="projet"><strong>Votre projet</strong></label><br>
+<select id="projet"><option value="abri">Abri de jardin</option><option value="piscine">Piscine</option></select></p>
+<p><label for="protege"><strong>Votre terrain est-il en secteur protégé ?</strong></label><br>
+<small>Abords d'un monument historique, site patrimonial remarquable, site classé. Le service urbanisme de votre mairie vous le dit.</small><br>
+<select id="protege"><option value="non">Non</option><option value="oui">Oui</option><option value="nsp">Je ne sais pas</option></select></p>
+
+<div id="f-abri">
+<p><label for="a-type"><strong>L'abri est-il…</strong></label><br>
+<select id="a-type"><option value="ind">Indépendant (non collé à un bâtiment)</option><option value="acc">Accolé à un bâtiment, sans communication</option><option value="com">Accolé et communiquant avec un bâtiment</option></select></p>
+<p><strong>Surface au sol</strong><br><small>Mesurez la projection au sol, toiture et débords compris.</small><br>
+<label>Longueur (m) <input id="a-l" type="number" min="0" step="0.01" inputmode="decimal" style="width:6rem"></label>
+<label>Largeur (m) <input id="a-w" type="number" min="0" step="0.01" inputmode="decimal" style="width:6rem"></label><br>
+<label>Surface de plancher si elle est différente (m², facultatif) <input id="a-sp" type="number" min="0" step="0.01" inputmode="decimal" style="width:6rem"></label></p>
+</div>
+
+<div id="f-piscine" hidden>
+<p><label for="p-type"><strong>Type de piscine</strong></label><br>
+<select id="p-type"><option value="ent">Enterrée</option><option value="hs">Hors sol (gonflable, en kit…)</option></select></p>
+<p><label for="p-s"><strong>Surface du bassin (m²)</strong></label><br>
+<input id="p-s" type="number" min="0" step="0.01" inputmode="decimal" style="width:6rem"></p>
+<p><label for="p-c"><strong>Couverture ou abri de piscine</strong></label><br>
+<select id="p-c"><option value="non">Aucune</option><option value="bas">Oui, jusqu'à 1,80 m de haut</option><option value="haut">Oui, plus de 1,80 m de haut</option></select></p>
+<p id="p-dur-bloc"><label for="p-dur"><strong>Durée d'installation (piscine hors sol)</strong></label><br>
+<select id="p-dur"><option value="long">Plus de 3 mois par an (plus de 15 jours en secteur protégé)</option><option value="court">3 mois par an au plus (15 jours au plus en secteur protégé)</option></select></p>
+</div>
+<p><button type="button" id="go">Voir la formalité</button></p>
+</form>
+<div id="res" class="reponse" aria-live="polite" hidden></div>
+<script>
+var DP="Déclaration préalable constructions et travaux non soumis à permis de construire";
+var PC="Demande de permis de construire (maison individuelle et ses annexes : PCMI ; autre construction : formulaire dédié)";
+function r(f,t){return {f:f,t:t};}
+function abri(type,prot,emp,sp){
+  var s=Math.max(emp||0,sp||0);
+  if(type==="com")return r("mairie","Un abri accolé et communiquant avec un bâtiment peut être traité par le PLU comme une construction nouvelle ou une extension : demandez au service urbanisme de votre mairie.");
+  if(prot){ return s<=20? r("DP","En secteur protégé, jusqu'à 20 m² : déclaration préalable."): r("PC","En secteur protégé, plus de 20 m² : permis de construire."); }
+  if(s<=5){ return type==="acc"? r("DP","Jusqu'à 5 m² un abri est dispensé de formalité, mais accolé au bâtiment il modifie son aspect extérieur : déclaration préalable.") : r("aucune","Jusqu'à 5 m² (surface de plancher et emprise au sol) : aucune formalité d'urbanisme."); }
+  return s<=20? r("DP","De plus de 5 m² à 20 m² : déclaration préalable.") : r("PC","Plus de 20 m² : permis de construire.");
+}
+function piscine(type,prot,s,couv,dur){
+  if(type==="hs" && dur==="court" && couv!=="haut") return r("aucune","Piscine hors sol installée 3 mois par an au plus (15 jours en secteur protégé) : aucune autorisation d'urbanisme.");
+  if(s>100) return r("PC","Bassin de plus de 100 m² : permis de construire.");
+  if(couv==="haut" && (type==="hs" || s>10)) return r("PC","Couverture ou abri de plus de 1,80 m de haut : permis de construire.");
+  if(s>10) return r("DP","Bassin de plus de 10 m² jusqu'à 100 m² : déclaration préalable.");
+  return prot? r("DP","Bassin jusqu'à 10 m² en secteur protégé : déclaration préalable.") : r("aucune","Bassin jusqu'à 10 m² : aucune autorisation d'urbanisme.");
+}
+function fmt(x){return (Math.round(x*100)/100).toString().replace(".",",");}
+function calcul(v){
+  if(v.protege==="nsp") return {err:"Renseignez-vous d'abord auprès du service urbanisme de votre mairie : en secteur protégé, les règles ne sont pas les mêmes."};
+  var prot=v.protege==="oui";
+  if(v.projet==="abri"){
+    var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
+    var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(!(v.ps>0)) return {err:"Indiquez la surface du bassin."};
+  var rp=piscine(v.ptype,prot,v.ps,v.pc,v.pdur); rp.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404"; rp.page="projets/piscine/"; return rp;
+}
+if(typeof document!=="undefined"){
+  var $=function(i){return document.getElementById(i)};
+  function maj(){var p=$("projet").value;$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("p-dur-bloc").hidden=$("p-type").value!=="hs";}
+  ["projet","p-type"].forEach(function(i){$(i).addEventListener("change",maj)});maj();
+  $("go").addEventListener("click",function(){
+    var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
+    var out=calcul({projet:$("projet").value,protege:$("protege").value,atype:$("a-type").value,l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:$("p-type").value,ps:n("p-s"),pc:$("p-c").value,pdur:$("p-dur").value});
+    var box=$("res");box.hidden=false;
+    if(out.err){box.textContent=out.err;return;}
+    var titre={aucune:"Aucune formalité d'urbanisme",DP:"Déclaration préalable",PC:"Permis de construire",mairie:"À confirmer avec la mairie"}[out.f];
+    var form={DP:DP,PC:PC}[out.f];
+    var h="<h2 style='margin-top:0'>"+titre+"</h2><p>"+out.t+"</p>";
+    if(out.detail)h+="<p>"+out.detail+"</p>";
+    if(form)h+="<p><strong>Formulaire :</strong> "+form+".</p>";
+    if(out.f==="DP")h+="<p><strong>Délai :</strong> 1 mois à partir du dépôt d'un dossier complet ; sans réponse, accord tacite (en secteur protégé, les délais sont différents).</p>";
+    h+="<p>Dans tous les cas, le PLU de votre commune s'applique : <a href='../guides/lire-le-plu/'>comment le consulter</a>.</p><p class='verif'>Source : <a href='"+out.src+"'>Service-Public</a> · <a href='../"+out.page+"'>détails de la page</a>. Information générale ; confirmez avec votre mairie.</p>";
+    box.innerHTML=h;
+  });
+}
+if(typeof module!=="undefined")module.exports={calcul:calcul};
+</script>
+<p class="verif">Cet outil reprend les règles des pages Service-Public relues le 25/10/2026 (abri de jardin, piscine privative). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+</main>
+<footer>Information générale, sans valeur de conseil juridique : seule la mairie de votre commune
+(service urbanisme) peut confirmer la règle applicable à votre terrain.
+<a href="../mentions-legales/">Mentions légales</a> ·
+<a href="../sources/">Sources</a> ·
+<a href="../contact/">Contact</a></footer>
+</body></html>
