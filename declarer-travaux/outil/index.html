@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Déclaration préalable ou permis ? Outil de calcul abri de jardin et piscine</title>
+<title>Déclaration préalable ou permis ? Outil de calcul abri de jardin, piscine, clôture</title>
 <meta name="description" content="Abri de jardin ou piscine : déclaration préalable, permis de construire ou aucune formalité ? Outil gratuit avec calcul de l&#x27;emprise au sol, secteur protégé par adresse et source officielle.">
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 <link rel="canonical" href="https://amsolutions-pro.github.io/declarer-travaux/outil/">
@@ -149,6 +149,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <div class="choix cartes">
 <label class="opt on"><input type="radio" name="projet" value="abri" checked><span class="pt"></span><span class="opt-t">Abri de jardin</span></label>
 <label class="opt"><input type="radio" name="projet" value="piscine"><span class="pt"></span><span class="opt-t">Piscine</span></label>
+<label class="opt"><input type="radio" name="projet" value="cloture"><span class="pt"></span><span class="opt-t">Clôture ou mur</span></label>
 </div></fieldset>
 </section>
 
@@ -212,6 +213,27 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="pdur" value="court"><span class="pt"></span><span class="opt-t">3 mois par an au plus <span class="opt-n">(15 jours au plus en secteur protégé)</span></span></label>
 </div></fieldset>
 </div>
+
+<div id="f-cloture" hidden>
+<fieldset class="champ"><legend class="lbl">Type de clôture</legend>
+<div class="choix">
+<label class="opt on"><input type="radio" name="ctype" value="mur" checked><span class="pt"></span><span><span class="opt-t">Mur de clôture</span><span class="opt-n">pierre, brique, béton</span></span></label>
+<label class="opt"><input type="radio" name="ctype" value="sout"><span class="pt"></span><span class="opt-t">Mur de soutènement</span></label>
+<label class="opt"><input type="radio" name="ctype" value="autre"><span class="pt"></span><span><span class="opt-t">Grillage, palissade, panneaux, claustra</span><span class="opt-n">ou treillage</span></span></label>
+<label class="opt"><input type="radio" name="ctype" value="agri"><span class="pt"></span><span class="opt-t">Clôture agricole électrifiée</span></label>
+<label class="opt"><input type="radio" name="ctype" value="veg"><span class="pt"></span><span><span class="opt-t">Clôture végétale</span><span class="opt-n">haie, arbustes</span></span></label>
+</div></fieldset>
+<div class="champ" id="c-h-bloc"><label class="lbl" for="c-h">Hauteur du mur</label>
+<span class="aide">Un mur de clôture de 2 mètres ou plus demande une déclaration préalable.</span>
+<div class="champ-s"><input id="c-h" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m</span></div></div>
+<fieldset class="champ" id="c-com-bloc"><legend class="lbl">Secteur délimité par le PLU, ou commune qui soumet les clôtures à déclaration ?</legend>
+<span class="aide">Par exemple une zone naturelle ou forestière. Le service urbanisme de votre mairie vous le dit.</span>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="ccom" value="non" checked><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="ccom" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
+<label class="opt"><input type="radio" name="ccom" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
+</div></fieldset>
+</div>
 </section>
 
 <div class="action">
@@ -225,10 +247,11 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F3131">Clôture (Service-Public)</a></li>
 </ul>
 </aside>
 
@@ -252,6 +275,17 @@ function piscine(type,prot,s,couv,dur){
   return prot? r("DP","Bassin jusqu'à 10 m² en secteur protégé : déclaration préalable.") : r("aucune","Bassin jusqu'à 10 m² : aucune autorisation d'urbanisme.");
 }
 
+function cloture(ct,prot,h,com){
+  var agr="Une clôture agricole électrifiée demande une déclaration préalable, avec le certificat d'homologation du matériel.";
+  if(ct==="veg")return r("mairie","Pour une clôture végétale (haie, arbustes), la page officielle détaille les règles de distance, d'implantation et de hauteur, mais n'indique pas de formalité d'urbanisme : renseignez-vous auprès du service urbanisme de votre mairie.");
+  if(ct==="agri")return r("DP",agr);
+  if(ct==="sout")return prot? r("DP","Un mur de soutènement est dispensé de formalité d'urbanisme, sauf en secteur protégé où une déclaration préalable est nécessaire.") : r("aucune","Un mur de soutènement est dispensé de formalité d'urbanisme, sauf en secteur protégé.");
+  if(prot)return r("DP","En secteur protégé : déclaration préalable pour cette clôture.");
+  if(com==="oui")return r("DP","Terrain dans un secteur délimité par le PLU, ou commune qui soumet les clôtures à déclaration : déclaration préalable.");
+  if(ct==="mur"&&h>=2)return r("DP","Un mur de clôture de 2 mètres ou plus : déclaration préalable.");
+  if(com==="nsp")return r("mairie","En principe une clôture est dispensée de formalité d'urbanisme, mais une déclaration préalable est exigée dans un secteur délimité par le PLU ou dans une commune qui soumet les clôtures à déclaration : confirmez avec le service urbanisme de votre mairie.");
+  return r("aucune","En principe, vous êtes dispensé de formalité d'urbanisme pour ce type de clôture. Le PLU peut tout de même fixer des règles sur la hauteur, la nature, l'aspect ou l'implantation.");
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -275,6 +309,10 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="cloture"){
+    if(v.ctype==="mur"&&!(v.h>0)) return {err:"Indiquez la hauteur du mur."};
+    var rc=cloture(v.ctype,prot,v.h,v.com); rc.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F3131"; rc.page="projets/cloture/"; return rc;
   }
   if(!(v.ps>0)) return {err:"Indiquez la surface du bassin."};
   var rp=piscine(v.ptype,prot,v.ps,v.pc,v.pdur); rp.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404"; rp.page="projets/piscine/"; return rp;
@@ -301,7 +339,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("p-dur-bloc").hidden=radio("ptype")!=="hs"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -332,7 +370,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
