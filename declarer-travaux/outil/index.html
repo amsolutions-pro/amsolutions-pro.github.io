@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Déclaration préalable ou permis ? Outil de calcul abri de jardin, piscine, clôture</title>
+<title>Déclaration préalable ou permis ? Outil abri de jardin, piscine, clôture, fenêtres</title>
 <meta name="description" content="Abri de jardin ou piscine : déclaration préalable, permis de construire ou aucune formalité ? Outil gratuit avec calcul de l&#x27;emprise au sol, secteur protégé par adresse et source officielle.">
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 <link rel="canonical" href="https://amsolutions-pro.github.io/declarer-travaux/outil/">
@@ -150,6 +150,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt on"><input type="radio" name="projet" value="abri" checked><span class="pt"></span><span class="opt-t">Abri de jardin</span></label>
 <label class="opt"><input type="radio" name="projet" value="piscine"><span class="pt"></span><span class="opt-t">Piscine</span></label>
 <label class="opt"><input type="radio" name="projet" value="cloture"><span class="pt"></span><span class="opt-t">Clôture ou mur</span></label>
+<label class="opt"><input type="radio" name="projet" value="fenetre"><span class="pt"></span><span class="opt-t">Fenêtres, volets ou porte</span></label>
 </div></fieldset>
 </section>
 
@@ -234,6 +235,20 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="ccom" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
 </div></fieldset>
 </div>
+
+<div id="f-fenetre" hidden>
+<fieldset class="champ"><legend class="lbl">Que changez-vous, et par quoi ?</legend>
+<div class="choix">
+<label class="opt on"><input type="radio" name="ftype" value="ident" checked><span class="pt"></span><span><span class="opt-t">Même modèle, mêmes matériaux, formes et couleurs</span><span class="opt-n">remplacement à l'identique, entretien, réparation</span></span></label>
+<label class="opt"><input type="radio" name="ftype" value="autre"><span class="pt"></span><span><span class="opt-t">Un autre modèle</span><span class="opt-n">forme, matériau ou couleur différents</span></span></label>
+</div></fieldset>
+<fieldset class="champ"><legend class="lbl">Les travaux s'accompagnent-ils d'un changement de destination ?</legend>
+<span class="aide">Par exemple transformer un commerce ou une grange en habitation.</span>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="fdest" value="non" checked><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="fdest" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
+</div></fieldset>
+</div>
 </section>
 
 <div class="action">
@@ -247,11 +262,12 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F3131">Clôture (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36762">Fenêtres, volets, porte (Service-Public)</a></li>
 </ul>
 </aside>
 
@@ -286,6 +302,13 @@ function cloture(ct,prot,h,com){
   if(com==="nsp")return r("mairie","En principe une clôture est dispensée de formalité d'urbanisme, mais une déclaration préalable est exigée dans un secteur délimité par le PLU ou dans une commune qui soumet les clôtures à déclaration : confirmez avec le service urbanisme de votre mairie.");
   return r("aucune","En principe, vous êtes dispensé de formalité d'urbanisme pour ce type de clôture. Le PLU peut tout de même fixer des règles sur la hauteur, la nature, l'aspect ou l'implantation.");
 }
+function fenetre(ft,dest,prot){
+  if(ft==="autre"&&dest==="oui")return r("PC","Changer ses fenêtres, volets ou porte par un autre modèle en même temps qu'un changement de destination : permis de construire.");
+  if(ft==="autre")return r("DP","Remplacer ses fenêtres, volets ou porte par un autre modèle modifie l'aspect extérieur du bâtiment : déclaration préalable.");
+  if(dest==="oui")return r("mairie","Un changement de destination accompagne les travaux : demandez au service urbanisme de votre mairie quelle autorisation s'applique.");
+  if(prot)return r("mairie","Remplacer à l'identique en secteur protégé : la page officielle ne détaille pas ce cas. Renseignez-vous auprès du service urbanisme de votre mairie avant de commander.");
+  return r("aucune","Entretien, réparation ou remplacement avec les mêmes matériaux, formes et couleurs : en général, aucune autorisation n'est exigée.");
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -309,6 +332,9 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="fenetre"){
+    var rf=fenetre(v.ftype,v.fdest,prot); rf.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F36762"; rf.page="projets/fenetres/"; return rf;
   }
   if(v.projet==="cloture"){
     if(v.ctype==="mur"&&!(v.h>0)) return {err:"Indiquez la hauteur du mur."};
@@ -339,7 +365,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -370,7 +396,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
