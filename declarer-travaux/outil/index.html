@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Déclaration préalable ou permis ? Outil abri de jardin, piscine, clôture, fenêtres</title>
+<title>Déclaration préalable ou permis ? Outil abri, piscine, clôture, fenêtres, solaire</title>
 <meta name="description" content="Abri de jardin ou piscine : déclaration préalable, permis de construire ou aucune formalité ? Outil gratuit avec calcul de l&#x27;emprise au sol, secteur protégé par adresse et source officielle.">
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 <link rel="canonical" href="https://amsolutions-pro.github.io/declarer-travaux/outil/">
@@ -151,6 +151,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="projet" value="piscine"><span class="pt"></span><span class="opt-t">Piscine</span></label>
 <label class="opt"><input type="radio" name="projet" value="cloture"><span class="pt"></span><span class="opt-t">Clôture ou mur</span></label>
 <label class="opt"><input type="radio" name="projet" value="fenetre"><span class="pt"></span><span class="opt-t">Fenêtres, volets ou porte</span></label>
+<label class="opt"><input type="radio" name="projet" value="solaire"><span class="pt"></span><span class="opt-t">Panneaux solaires</span></label>
 </div></fieldset>
 </section>
 
@@ -249,6 +250,25 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="fdest" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
 </div></fieldset>
 </div>
+
+<div id="f-solaire" hidden>
+<fieldset class="champ"><legend class="lbl">Où installez-vous les panneaux ?</legend>
+<div class="choix cartes">
+<label class="opt on"><input type="radio" name="semp" value="toit" checked><span class="pt"></span><span class="opt-t">Sur le toit</span></label>
+<label class="opt"><input type="radio" name="semp" value="sol"><span class="pt"></span><span class="opt-t">Au sol, dans le jardin</span></label>
+</div></fieldset>
+<fieldset class="champ" id="s-neuf-bloc"><legend class="lbl">Le bâtiment existe-t-il déjà ?</legend>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="sneuf" value="non" checked><span class="pt"></span><span class="opt-t">Oui, existant</span></label>
+<label class="opt"><input type="radio" name="sneuf" value="oui"><span class="pt"></span><span class="opt-t">Maison en construction</span></label>
+</div></fieldset>
+<div class="champ" id="s-kw-bloc"><label class="lbl" for="s-kw">Puissance crête de l'installation</label>
+<span class="aide">En kilowatts (kW), indiquée sur le devis. Seuils : 3 kW et 1 000 kW.</span>
+<div class="champ-s"><input id="s-kw" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">kW</span></div></div>
+<div class="champ" id="s-h-bloc"><label class="lbl" for="s-h">Hauteur des panneaux au-dessus du sol</label>
+<span class="aide">Seuil : 1,80 m.</span>
+<div class="champ-s"><input id="s-h" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m</span></div></div>
+</div>
 </section>
 
 <div class="action">
@@ -262,12 +282,14 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F3131">Clôture (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36762">Fenêtres, volets, porte (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36798">Panneaux solaires sur un toit (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31473">Travaux extérieurs de la maison, dont panneaux au sol (Service-Public)</a></li>
 </ul>
 </aside>
 
@@ -309,6 +331,16 @@ function fenetre(ft,dest,prot){
   if(prot)return r("mairie","Remplacer à l'identique en secteur protégé : la page officielle ne détaille pas ce cas. Renseignez-vous auprès du service urbanisme de votre mairie avant de commander.");
   return r("aucune","Entretien, réparation ou remplacement avec les mêmes matériaux, formes et couleurs : en général, aucune autorisation n'est exigée.");
 }
+function solaire(emp,neuf,prot,kw,h){
+  if(emp==="toit"){
+    if(neuf==="oui")return r("PC","Si vous construisez une maison, l'installation des panneaux solaires doit figurer sur votre demande de permis de construire.");
+    return r("DP","Poser des panneaux solaires sur un toit modifie l'aspect extérieur du bâtiment : déclaration préalable.");
+  }
+  if(prot)return kw<3? r("DP","Panneaux au sol en secteur protégé, puissance inférieure à 3 kW : déclaration préalable.") : r("PC","Panneaux au sol en secteur protégé, puissance de 3 kW ou plus : permis de construire.");
+  if(kw>=1000)return r("PC","Panneaux au sol, puissance de 1 000 kW ou plus : permis de construire.");
+  if(kw>=3)return r("DP","Panneaux au sol, puissance de 3 kW ou plus et inférieure à 1 000 kW, quelle que soit la hauteur : déclaration préalable.");
+  return h<1.8? r("aucune","Panneaux au sol de moins de 3 kW et de moins de 1,80 m de haut : dispensés de toutes formalités. Le PLU, la carte communale ou le règlement national d'urbanisme s'appliquent tout de même.") : r("DP","Panneaux au sol de moins de 3 kW et de 1,80 m de haut ou plus : déclaration préalable.");
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -332,6 +364,13 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="solaire"){
+    if(v.semp==="sol"){
+      if(!(v.kw>0)) return {err:"Indiquez la puissance crête de l'installation, en kW."};
+      if(!prot&&v.kw<3&&!(v.sh>0)) return {err:"Indiquez la hauteur des panneaux."};
+    }
+    var rs=solaire(v.semp,v.sneuf,prot,v.kw,v.sh); rs.src=v.semp==="toit"?"https://www.service-public.gouv.fr/particuliers/vosdroits/F36798":"https://www.service-public.gouv.fr/particuliers/vosdroits/F31473"; rs.page="projets/panneaux-solaires/"; return rs;
   }
   if(v.projet==="fenetre"){
     var rf=fenetre(v.ftype,v.fdest,prot); rf.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F36762"; rf.page="projets/fenetres/"; return rf;
@@ -365,7 +404,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -396,7 +435,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
