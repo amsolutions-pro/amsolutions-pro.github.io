@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Déclaration préalable ou permis ? Outil abri, piscine, clôture, fenêtres, solaire</title>
+<title>Déclaration préalable ou permis ? Outil abri, piscine, véranda, clôture, solaire</title>
 <meta name="description" content="Abri de jardin ou piscine : déclaration préalable, permis de construire ou aucune formalité ? Outil gratuit avec calcul de l&#x27;emprise au sol, secteur protégé par adresse et source officielle.">
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 
@@ -153,6 +153,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="projet" value="cloture"><span class="pt"></span><span class="opt-t">Clôture ou mur</span></label>
 <label class="opt"><input type="radio" name="projet" value="fenetre"><span class="pt"></span><span class="opt-t">Fenêtres, volets ou porte</span></label>
 <label class="opt"><input type="radio" name="projet" value="solaire"><span class="pt"></span><span class="opt-t">Panneaux solaires</span></label>
+<label class="opt"><input type="radio" name="projet" value="veranda"><span class="pt"></span><span class="opt-t">Véranda</span></label>
 </div></fieldset>
 </section>
 
@@ -270,6 +271,24 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <span class="aide">Seuil : 1,80 m.</span>
 <div class="champ-s"><input id="s-h" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m</span></div></div>
 </div>
+
+<div id="f-veranda" hidden>
+<fieldset class="champ"><legend class="lbl">Votre terrain est-il en zone urbaine d'un PLU ?</legend>
+<span class="aide">Zones « U » du plan local d'urbanisme. La recherche par adresse ci-dessus l'indique, ou demandez au service urbanisme de votre mairie.</span>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="vzone" value="urbaine" checked><span class="pt"></span><span class="opt-t">Oui</span></label>
+<label class="opt"><input type="radio" name="vzone" value="hors"><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="vzone" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
+</div></fieldset>
+<div class="champ"><label class="lbl" for="v-emp">Emprise au sol de la véranda</label>
+<div class="champ-s"><input id="v-emp" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m²</span></div></div>
+<div class="champ"><label class="lbl" for="v-sp">Surface de plancher de la véranda <span class="fac">(si elle est différente)</span></label>
+<span class="aide">La véranda ouverte et fermée, hauteur sous plafond de plus de 1,80 m. <a href="../guides/emprise-au-sol-surface-de-plancher/">Comment les calculer</a>.</span>
+<div class="champ-s"><input id="v-sp" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m²</span></div></div>
+<div class="champ"><label class="lbl" for="v-tot">Surface de plancher totale du bâtiment après travaux <span class="fac">(facultatif)</span></label>
+<span class="aide">Au-delà de 150 m², le permis peut s'imposer et un architecte devient obligatoire.</span>
+<div class="champ-s"><input id="v-tot" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m²</span></div></div>
+</div>
 </section>
 
 <div class="action">
@@ -283,13 +302,14 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F3131">Clôture (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36762">Fenêtres, volets, porte (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36798">Panneaux solaires sur un toit (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36768">Véranda (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31473">Travaux extérieurs de la maison, dont panneaux au sol (Service-Public)</a></li>
 </ul>
 </aside>
@@ -342,6 +362,23 @@ function solaire(emp,neuf,prot,kw,h){
   if(kw>=3)return r("DP","Panneaux au sol, puissance de 3 kW ou plus et inférieure à 1 000 kW, quelle que soit la hauteur : déclaration préalable.");
   return h<1.8? r("aucune","Panneaux au sol de moins de 3 kW et de moins de 1,80 m de haut : dispensés de toutes formalités. Le PLU, la carte communale ou le règlement national d'urbanisme s'appliquent tout de même.") : r("DP","Panneaux au sol de moins de 3 kW et de 1,80 m de haut ou plus : déclaration préalable.");
 }
+function veranda(zone,emp,sp,tot,prot){
+  var s=Math.max(emp||0,sp||0),archi=" Le recours à un architecte est obligatoire si la surface de plancher totale du bâtiment après travaux dépasse 150 m².";
+  function urb(){
+    if(s>40)return {f:"PC",t:"Véranda de plus de 40 m² d'emprise au sol ou de surface de plancher, en zone urbaine d'un PLU : permis de construire."+archi};
+    if(sp>20&&tot>150)return {f:"PC",t:"Véranda de plus de 20 m² de surface de plancher qui porte la surface de plancher totale du bâtiment à plus de 150 m² : permis de construire, et recours à un architecte obligatoire."};
+    return {f:"DP",t:"Véranda jusqu'à 40 m² d'emprise au sol et de surface de plancher, en zone urbaine d'un PLU : déclaration préalable."};
+  }
+  function hors(){
+    if(s>20)return {f:"PC",t:"Véranda de plus de 20 m² d'emprise au sol ou de surface de plancher, hors zone urbaine d'un PLU : permis de construire."+archi};
+    return {f:"DP",t:"Véranda jusqu'à 20 m² d'emprise au sol et de surface de plancher, hors zone urbaine d'un PLU : déclaration préalable."};
+  }
+  var lib={DP:"déclaration préalable",PC:"permis de construire"};
+  if(zone==="nsp"){var a=urb(),b=hors();return r("mairie","Le seuil dépend de la zone : en zone urbaine d'un PLU, ce serait "+lib[a.f]+" ; hors zone urbaine, "+lib[b.f]+". Demandez à la mairie dans quelle zone se trouve votre terrain.");}
+  var x=zone==="urbaine"?urb():hors();
+  if(prot)return r("mairie","La fiche officielle indique que la formalité dépend aussi du secteur protégé, sans le détailler dans le texte que nous avons pu lire. Hors secteur protégé, votre cas relèverait d'une "+lib[x.f]+". Renseignez-vous auprès du service urbanisme de votre mairie.");
+  return r(x.f,x.t);
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -365,6 +402,11 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="veranda"){
+    if(!(v.vemp>0)&&!(v.vsp>0)) return {err:"Indiquez la surface de la véranda."};
+    if(v.vzone==="urbaine"&&!(v.vemp>40)&&!(v.vsp>40)&&v.vsp>20&&!(v.vtot>0)) return {err:"Indiquez la surface de plancher totale du bâtiment après travaux."};
+    var rv=veranda(v.vzone,v.vemp,v.vsp,v.vtot,prot); rv.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F36768"; rv.page="projets/veranda/"; return rv;
   }
   if(v.projet==="solaire"){
     if(v.semp==="sol"){
@@ -405,7 +447,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -436,7 +478,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
