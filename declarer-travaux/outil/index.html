@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Déclaration préalable ou permis ? Outil abri, piscine, véranda, clôture, solaire</title>
+<title>Déclaration préalable ou permis ? Outil abri, piscine, véranda, carport, clôture</title>
 <meta name="description" content="Abri de jardin ou piscine : déclaration préalable, permis de construire ou aucune formalité ? Outil gratuit avec calcul de l&#x27;emprise au sol, secteur protégé par adresse et source officielle.">
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 
@@ -154,6 +154,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="projet" value="fenetre"><span class="pt"></span><span class="opt-t">Fenêtres, volets ou porte</span></label>
 <label class="opt"><input type="radio" name="projet" value="solaire"><span class="pt"></span><span class="opt-t">Panneaux solaires</span></label>
 <label class="opt"><input type="radio" name="projet" value="veranda"><span class="pt"></span><span class="opt-t">Véranda</span></label>
+<label class="opt"><input type="radio" name="projet" value="pergola"><span class="pt"></span><span class="opt-t">Pergola, carport, abri à bois</span></label>
 </div></fieldset>
 </section>
 
@@ -289,6 +290,30 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <span class="aide">Au-delà de 150 m², le permis peut s'imposer et un architecte devient obligatoire.</span>
 <div class="champ-s"><input id="v-tot" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m²</span></div></div>
 </div>
+
+<div id="f-pergola" hidden>
+<fieldset class="champ"><legend class="lbl">Pour le PLU de votre commune, est-ce une construction nouvelle ou une extension ?</legend>
+<span class="aide">Le PLU peut la considérer comme une construction nouvelle ou comme une extension (par exemple si elle est accolée à la maison). Le service urbanisme de votre mairie vous le dit.</span>
+<div class="choix">
+<label class="opt on"><input type="radio" name="pnat" value="nouv" checked><span class="pt"></span><span class="opt-t">Construction nouvelle</span></label>
+<label class="opt"><input type="radio" name="pnat" value="ext"><span class="pt"></span><span class="opt-t">Extension</span></label>
+<label class="opt"><input type="radio" name="pnat" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
+</div></fieldset>
+<div class="champ"><label class="lbl" for="pg-emp">Emprise au sol</label>
+<span class="aide">La projection au sol de la structure. <a href="../guides/emprise-au-sol-surface-de-plancher/">Comment la calculer</a>.</span>
+<div class="champ-s"><input id="pg-emp" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m²</span></div></div>
+<fieldset class="champ" id="pg-acc-bloc"><legend class="lbl">Est-elle accolée au bâtiment, sans communiquer avec lui ?</legend>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="pacc" value="non" checked><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="pacc" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
+</div></fieldset>
+<fieldset class="champ" id="pg-zone-bloc"><legend class="lbl">Votre terrain est-il en zone urbaine d'un PLU ?</legend>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="pzone" value="urbaine" checked><span class="pt"></span><span class="opt-t">Oui</span></label>
+<label class="opt"><input type="radio" name="pzone" value="hors"><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="pzone" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
+</div></fieldset>
+</div>
 </section>
 
 <div class="action">
@@ -302,7 +327,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
@@ -310,6 +335,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36762">Fenêtres, volets, porte (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36798">Panneaux solaires sur un toit (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36768">Véranda (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36773">Pergola, carport, abri à bois (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31473">Travaux extérieurs de la maison, dont panneaux au sol (Service-Public)</a></li>
 </ul>
 </aside>
@@ -379,6 +405,25 @@ function veranda(zone,emp,sp,tot,prot){
   if(prot)return r("mairie","La fiche officielle indique que la formalité dépend aussi du secteur protégé, sans le détailler dans le texte que nous avons pu lire. Hors secteur protégé, votre cas relèverait d'une "+lib[x.f]+". Renseignez-vous auprès du service urbanisme de votre mairie.");
   return r(x.f,x.t);
 }
+var LIBP={aucune:"aucune formalité",DP:"déclaration préalable",PC:"permis de construire"};
+function pergNouv(emp,acc,prot){
+  if(prot)return emp<=20? r("DP","Pergola, carport ou abri à bois de 20 m² d'emprise au sol au plus, en secteur protégé : déclaration préalable.") : r("PC","Pergola, carport ou abri à bois de plus de 20 m² d'emprise au sol, en secteur protégé : permis de construire.");
+  if(emp<=5)return acc==="oui"? r("DP","Jusqu'à 5 m² d'emprise au sol, une pergola, un carport ou un abri à bois est dispensé de formalité, sauf s'il modifie l'aspect extérieur du bâtiment (construction accolée sans communication) : déclaration préalable.") : r("aucune","Pergola, carport ou abri à bois jusqu'à 5 m² d'emprise au sol : dispensé de formalité (sauf s'il modifie l'aspect extérieur du bâtiment). Le PLU s'applique tout de même.");
+  return emp<=20? r("DP","Pergola, carport ou abri à bois de plus de 5 m² jusqu'à 20 m² d'emprise au sol : déclaration préalable.") : r("PC","Pergola, carport ou abri à bois de plus de 20 m² d'emprise au sol : permis de construire.");
+}
+function pergExt(emp,zone){
+  var lim=zone==="urbaine"?40:20;
+  return emp<=lim? r("DP","Extension de "+lim+" m² d'emprise au sol au plus ("+(zone==="urbaine"?"en zone urbaine d'un PLU":"hors zone urbaine d'un PLU")+") : déclaration préalable.") : r("PC","Extension de plus de "+lim+" m² d'emprise au sol ("+(zone==="urbaine"?"en zone urbaine d'un PLU":"hors zone urbaine d'un PLU")+") : permis de construire.");
+}
+function pergola(nat,zone,acc,emp,prot){
+  if(nat==="nouv")return pergNouv(emp,acc,prot);
+  if(nat==="ext"){
+    if(zone==="nsp"){var a=pergExt(emp,"urbaine"),b=pergExt(emp,"hors");return a.f===b.f?a:r("mairie","Extension : le seuil est de 40 m² en zone urbaine d'un PLU et de 20 m² ailleurs. Pour votre surface, ce serait "+LIBP[a.f]+" en zone urbaine, "+LIBP[b.f]+" ailleurs. Demandez à la mairie dans quelle zone se trouve votre terrain.");}
+    return pergExt(emp,zone);
+  }
+  var n=pergNouv(emp,acc,prot),e=zone==="nsp"?null:pergExt(emp,zone);
+  return r("mairie","Le PLU de votre commune peut considérer votre projet comme une construction nouvelle ou comme une extension : demandez-le au service urbanisme. Pour votre surface, ce serait "+LIBP[n.f]+" en construction nouvelle"+(e?" et "+LIBP[e.f]+" en extension.":"."));
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -402,6 +447,10 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="pergola"){
+    if(!(v.pemp>0)) return {err:"Indiquez l'emprise au sol de la construction."};
+    var rp2=pergola(v.pnat,v.pzone,v.pacc,v.pemp,prot); rp2.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F36773"; rp2.page="projets/pergola-carport/"; return rp2;
   }
   if(v.projet==="veranda"){
     if(!(v.vemp>0)&&!(v.vsp>0)) return {err:"Indiquez la surface de la véranda."};
@@ -447,7 +496,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -478,7 +527,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot"),pnat:radio("pnat"),pemp:n("pg-emp"),pacc:radio("pacc"),pzone:radio("pzone")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
