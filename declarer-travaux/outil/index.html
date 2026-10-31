@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Déclaration préalable ou permis ? Outil abri, piscine, véranda, carport, clôture</title>
+<title>Déclaration préalable ou permis ? Outil abri, piscine, véranda, ravalement</title>
 <meta name="description" content="Abri de jardin ou piscine : déclaration préalable, permis de construire ou aucune formalité ? Outil gratuit avec calcul de l&#x27;emprise au sol, secteur protégé par adresse et source officielle.">
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 
@@ -155,6 +155,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="projet" value="solaire"><span class="pt"></span><span class="opt-t">Panneaux solaires</span></label>
 <label class="opt"><input type="radio" name="projet" value="veranda"><span class="pt"></span><span class="opt-t">Véranda</span></label>
 <label class="opt"><input type="radio" name="projet" value="pergola"><span class="pt"></span><span class="opt-t">Pergola, carport, abri à bois</span></label>
+<label class="opt"><input type="radio" name="projet" value="ravalement"><span class="pt"></span><span class="opt-t">Ravalement de façade</span></label>
 </div></fieldset>
 </section>
 
@@ -314,6 +315,28 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="pzone" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
 </div></fieldset>
 </div>
+
+<div id="f-ravalement" hidden>
+<fieldset class="champ"><legend class="lbl">Que changez-vous ?</legend>
+<div class="choix">
+<label class="opt on"><input type="radio" name="rtype" value="ident" checked><span class="pt"></span><span><span class="opt-t">Rien : même couleur, mêmes matériaux</span><span class="opt-n">ravalement ou peinture à l'identique, entretien ou réparation ordinaire</span></span></label>
+<label class="opt"><input type="radio" name="rtype" value="modif"><span class="pt"></span><span><span class="opt-t">La couleur ou les matériaux</span><span class="opt-n">l'aspect extérieur du bâtiment est modifié</span></span></label>
+</div></fieldset>
+<fieldset class="champ"><legend class="lbl">Le bâtiment est-il un immeuble protégé ?</legend>
+<span class="aide">Par exemple inscrit ou classé au titre des monuments historiques. Le service urbanisme de votre mairie vous le dit.</span>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="rimm" value="non" checked><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="rimm" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
+<label class="opt"><input type="radio" name="rimm" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
+</div></fieldset>
+<fieldset class="champ"><legend class="lbl">Votre commune soumet-elle les ravalements à autorisation ?</legend>
+<span class="aide">Le conseil municipal ou l'intercommunalité peut décider de soumettre le ravalement à autorisation, pour toute la commune ou un périmètre. Votre mairie vous le dit.</span>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="rcom" value="non" checked><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="rcom" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
+<label class="opt"><input type="radio" name="rcom" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
+</div></fieldset>
+</div>
 </section>
 
 <div class="action">
@@ -327,7 +350,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport, ravalement). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
@@ -336,6 +359,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36798">Panneaux solaires sur un toit (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36768">Véranda (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36773">Pergola, carport, abri à bois (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36779">Ravalement de façade (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31473">Travaux extérieurs de la maison, dont panneaux au sol (Service-Public)</a></li>
 </ul>
 </aside>
@@ -424,6 +448,14 @@ function pergola(nat,zone,acc,emp,prot){
   var n=pergNouv(emp,acc,prot),e=zone==="nsp"?null:pergExt(emp,zone);
   return r("mairie","Le PLU de votre commune peut considérer votre projet comme une construction nouvelle ou comme une extension : demandez-le au service urbanisme. Pour votre surface, ce serait "+LIBP[n.f]+" en construction nouvelle"+(e?" et "+LIBP[e.f]+" en extension.":"."));
 }
+function ravalement(rt,imm,com,prot){
+  if(prot)return r("DP","Le ravalement ou la peinture d'une façade en secteur protégé demande une déclaration préalable, même à l'identique.");
+  if(imm==="oui")return r("DP","Le ravalement ou la peinture d'un immeuble protégé demande une déclaration préalable, même à l'identique.");
+  if(com==="oui")return r("DP","Dans une commune ou un périmètre qui a décidé de soumettre le ravalement à autorisation : déclaration préalable, même à l'identique.");
+  if(rt==="modif")return r("DP","Ravalement ou peinture avec modification de l'aspect extérieur (changement de couleur ou de matériaux) : déclaration préalable.");
+  if(imm==="nsp"||com==="nsp")return r("mairie","À l'identique, un ravalement est dispensé d'autorisation, mais une déclaration est exigée pour un immeuble protégé ou dans une commune qui a décidé de soumettre le ravalement à autorisation : confirmez avec le service urbanisme de votre mairie.");
+  return r("aucune","Ravalement ou peinture sans modification de l'aspect extérieur (même couleur, mêmes matériaux) : dispensé d'autorisation d'urbanisme. Il s'agit de travaux d'entretien ou de réparations ordinaires.");
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -447,6 +479,9 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="ravalement"){
+    var rr=ravalement(v.rtype,v.rimm,v.rcom,prot); rr.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F36779"; rr.page="projets/ravalement-facade/"; return rr;
   }
   if(v.projet==="pergola"){
     if(!(v.pemp>0)) return {err:"Indiquez l'emprise au sol de la construction."};
@@ -496,7 +531,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";$("f-ravalement").hidden=p!=="ravalement";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -527,7 +562,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot"),pnat:radio("pnat"),pemp:n("pg-emp"),pacc:radio("pacc"),pzone:radio("pzone")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot"),pnat:radio("pnat"),pemp:n("pg-emp"),pacc:radio("pacc"),pzone:radio("pzone"),rtype:radio("rtype"),rimm:radio("rimm"),rcom:radio("rcom")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
