@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="fr"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Déclaration préalable ou permis ? Outil abri, piscine, extension, garage</title>
+<title>Déclaration préalable ou permis ? Outil abri, piscine, terrasse, extension</title>
 <meta name="description" content="Abri de jardin ou piscine : déclaration préalable, permis de construire ou aucune formalité ? Outil gratuit avec calcul de l&#x27;emprise au sol, secteur protégé par adresse et source officielle.">
 <meta name="google-site-verification" content="FZY90BD6CwtmB6fN9QD3zr0S7ol89siVycJ4V8aGjYU" />
 
@@ -159,6 +159,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="projet" value="ite"><span class="pt"></span><span class="opt-t">Isolation par l'extérieur</span></label>
 <label class="opt"><input type="radio" name="projet" value="garage"><span class="pt"></span><span class="opt-t">Garage en pièce de vie</span></label>
 <label class="opt"><input type="radio" name="projet" value="extension"><span class="pt"></span><span class="opt-t">Extension ou surélévation</span></label>
+<label class="opt"><input type="radio" name="projet" value="terrasse"><span class="pt"></span><span class="opt-t">Terrasse</span></label>
 </div></fieldset>
 </section>
 
@@ -392,6 +393,29 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="xagri" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
 </div></fieldset>
 </div>
+
+<div id="f-terrasse" hidden>
+<fieldset class="champ"><legend class="lbl">La terrasse est-elle…</legend>
+<div class="choix cartes">
+<label class="opt on"><input type="radio" name="tliaison" value="acc" checked><span class="pt"></span><span class="opt-t">Accolée au bâtiment</span></label>
+<label class="opt"><input type="radio" name="tliaison" value="ind"><span class="pt"></span><span class="opt-t">Indépendante</span></label>
+</div></fieldset>
+<fieldset class="champ"><legend class="lbl">Type de terrasse</legend>
+<div class="choix">
+<label class="opt on"><input type="radio" name="ttype" value="plain" checked><span class="pt"></span><span><span class="opt-t">De plain-pied</span><span class="opt-n">non surélevée ou très faiblement surélevée</span></span></label>
+<label class="opt"><input type="radio" name="ttype" value="sur"><span class="pt"></span><span class="opt-t">Surélevée</span></label>
+<label class="opt"><input type="radio" name="ttype" value="cou"><span class="pt"></span><span class="opt-t">Couverte</span></label>
+</div></fieldset>
+<div class="champ" id="t-emp-bloc"><label class="lbl" for="t-emp">Emprise au sol</label>
+<div class="champ-s"><input id="t-emp" type="number" min="0" step="0.01" inputmode="decimal"><span class="unite" aria-hidden="true">m²</span></div></div>
+<fieldset class="champ" id="t-zone-bloc"><legend class="lbl">Votre terrain est-il en zone urbaine d'un PLU ?</legend>
+<span class="aide">Cela compte pour une terrasse surélevée ou couverte accolée au bâtiment.</span>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="tzone" value="urbaine" checked><span class="pt"></span><span class="opt-t">Oui</span></label>
+<label class="opt"><input type="radio" name="tzone" value="hors"><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="tzone" value="nsp"><span class="pt"></span><span class="opt-t">Je ne sais pas</span></label>
+</div></fieldset>
+</div>
 </section>
 
 <div class="action">
@@ -405,7 +429,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport, ravalement, isolation, garage, extension). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport, ravalement, isolation, garage, extension, terrasse). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
@@ -418,6 +442,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F37924">Isolation thermique par l'extérieur (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36776">Garage en pièce de vie (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36777">Agrandissement ou surélévation (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36774">Terrasse (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31473">Travaux extérieurs de la maison, dont panneaux au sol (Service-Public)</a></li>
 </ul>
 </aside>
@@ -547,6 +572,14 @@ function extension(zone,emp,sp,tot,agri,prot){
   if(zone==="nsp"){var a=urb(),b=hors();return a.f===b.f?r(a.f,a.t):r("mairie","Le seuil dépend de la zone : en zone urbaine d'un PLU, ce serait "+lib[a.f]+" ; hors zone urbaine, "+lib[b.f]+". Demandez à la mairie dans quelle zone se trouve votre terrain.");}
   var u=urb();return r(u.f,u.t);
 }
+function terrasse(liaison,type,zone,emp,prot){
+  if(type==="plain")return prot? r("DP","Une terrasse de plain-pied en secteur protégé demande une déclaration préalable, quelle que soit sa surface.") : r("aucune","Une terrasse de plain-pied (non surélevée ou très faiblement surélevée) est dispensée de demande d'autorisation d'urbanisme. Le PLU s'applique tout de même.");
+  var nom=type==="cou"?"couverte":"surélevée",lib={DP:"déclaration préalable",PC:"permis de construire"};
+  function avec(lim,ou){return emp<=lim? {f:"DP",t:"Terrasse "+nom+" de "+lim+" m² d'emprise au sol au plus"+ou+" : déclaration préalable."} : {f:"PC",t:"Terrasse "+nom+" de plus de "+lim+" m² d'emprise au sol"+ou+" : permis de construire."};}
+  if(liaison==="ind"){var i=avec(20," (terrasse indépendante)");return r(i.f,i.t);}
+  if(zone==="nsp"){var a=avec(40," en zone urbaine d'un PLU"),b=avec(20," hors zone urbaine");return a.f===b.f?r(a.f,a.t):r("mairie","Pour une terrasse accolée, le seuil est de 40 m² en zone urbaine d'un PLU et de 20 m² ailleurs. Pour votre surface, ce serait "+lib[a.f]+" en zone urbaine, "+lib[b.f]+" ailleurs. Demandez à la mairie dans quelle zone se trouve votre terrain.");}
+  var u=zone==="urbaine"?avec(40," en zone urbaine d'un PLU"):avec(20," hors zone urbaine d'un PLU");return r(u.f,u.t);
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -570,6 +603,10 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="terrasse"){
+    if(v.ttype!=="plain"&&!(v.temp>0)) return {err:"Indiquez l'emprise au sol de la terrasse."};
+    var rt=terrasse(v.tliaison,v.ttype,v.tzone,v.temp,prot); rt.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F36774"; rt.page="projets/terrasse/"; return rt;
   }
   if(v.projet==="extension"){
     if(!(v.xemp>0)&&!(v.xsp>0)) return {err:"Indiquez la surface créée par l'extension."};
@@ -634,7 +671,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";$("f-ravalement").hidden=p!=="ravalement";$("f-ite").hidden=p!=="ite";$("f-garage").hidden=p!=="garage";$("f-extension").hidden=p!=="extension";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";$("f-ravalement").hidden=p!=="ravalement";$("f-ite").hidden=p!=="ite";$("f-garage").hidden=p!=="garage";$("f-extension").hidden=p!=="extension";$("f-terrasse").hidden=p!=="terrasse";var tt=radio("ttype");$("t-emp-bloc").hidden=tt==="plain";$("t-zone-bloc").hidden=tt==="plain"||radio("tliaison")==="ind";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -665,7 +702,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot"),pnat:radio("pnat"),pemp:n("pg-emp"),pacc:radio("pacc"),pzone:radio("pzone"),rtype:radio("rtype"),rimm:radio("rimm"),rcom:radio("rcom"),isit:radio("isit"),ilim:radio("ilim"),gs:n("g-s"),gext:radio("gext"),xzone:radio("xzone"),xemp:n("x-emp"),xsp:n("x-sp"),xtot:n("x-tot"),xagri:radio("xagri")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot"),pnat:radio("pnat"),pemp:n("pg-emp"),pacc:radio("pacc"),pzone:radio("pzone"),rtype:radio("rtype"),rimm:radio("rimm"),rcom:radio("rcom"),isit:radio("isit"),ilim:radio("ilim"),gs:n("g-s"),gext:radio("gext"),xzone:radio("xzone"),xemp:n("x-emp"),xsp:n("x-sp"),xtot:n("x-tot"),xagri:radio("xagri"),tliaison:radio("tliaison"),ttype:radio("ttype"),temp:n("t-emp"),tzone:radio("tzone")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
