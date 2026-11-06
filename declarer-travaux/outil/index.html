@@ -452,7 +452,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues le <strong>25 octobre 2026</strong> (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport, ravalement, isolation, garage, extension, terrasse, changement de destination). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues puis recontrôlées le <strong>6 novembre 2026</strong> (dates de vérification des fiches et chiffres) (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport, ravalement, isolation, garage, extension, terrasse, changement de destination). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
@@ -613,10 +613,13 @@ function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){retur
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
   var d=(doc||[])[0],z=(zone||[])[0],m=(muni||[])[0];
+  if(doc===null&&zone===null)L.push("Les données du plan d'urbanisme n'ont pas répondu : demandez la zone et le règlement à la mairie.");
+  else
   if(d){L.push("Document d'urbanisme : "+esc(d.du_type||"document")+(d.grid_title?" de "+esc(d.grid_title):"")+".");}
   else if(m&&m.is_rnu){L.push("Cette commune est au règlement national d'urbanisme (pas de PLU propre).");}
   else{L.push("Aucun document d'urbanisme n'a été trouvé pour ce point dans le Géoportail de l'urbanisme (il peut exister ailleurs : demandez à la mairie).");}
   if(z){L.push("Zone : "+esc(z.libelle)+(z.libelong?" – "+esc(z.libelong):"")+(z.typezone?" (type "+esc(z.typezone)+")":"")+(z.nomfic?". Règlement écrit : fichier « "+esc(z.nomfic)+" »":"")+".");}
+  if(sup===null){prot="incertain";L.push("La recherche des périmètres protégés n'a pas répondu à temps : le secteur protégé n'a pas pu être vérifié. Renseignez-vous auprès du service urbanisme de votre mairie.");}
   (sup||[]).forEach(function(f){var t=String(f.suptype||"").toLowerCase();if(t==="ac1")ac1++;else if(t==="ac4")ac4++;else if(t==="ac2")ac2++;});
   if(ac4){prot="oui";L.push("Ce point est dans un site patrimonial remarquable : secteur protégé.");}
   if(ac1){prot=prot==="oui"?"oui":"incertain";L.push("Ce point est dans un périmètre de protection autour d'un monument historique (abords). Le périmètre exact dépend de la visibilité : à confirmer en mairie.");}
@@ -706,12 +709,14 @@ if(typeof document!=="undefined"){
   function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";$("f-ravalement").hidden=p!=="ravalement";$("f-ite").hidden=p!=="ite";$("f-garage").hidden=p!=="garage";$("f-extension").hidden=p!=="extension";$("f-terrasse").hidden=p!=="terrasse";$("f-destination").hidden=p!=="destination";var tt=radio("ttype");$("t-emp-bloc").hidden=tt==="plain";$("t-zone-bloc").hidden=tt==="plain"||radio("tliaison")==="ind";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
-  function jget(u){var c=new AbortController(),t=setTimeout(function(){c.abort()},12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
-  function gpu(path,lon,lat){return jget(API+path+"?geom="+encodeURIComponent(JSON.stringify({type:"Point",coordinates:[lon,lat]}))).then(function(d){return d.features.map(function(f){return f.properties})})}
+  function jget(u,ms){var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
+  function gpu(path,lon,lat,ms){return jget(API+path+"?geom="+encodeURIComponent(JSON.stringify({type:"Point",coordinates:[lon,lat]})),ms).then(function(d){return d.features.map(function(f){return f.properties})})}
   var choix=[];
   function analyse(i){
     var c=choix[i],box=$("loc-res");box.textContent="Recherche des données d'urbanisme…";
-    Promise.all([gpu("document",c.lon,c.lat),gpu("zone-urba",c.lon,c.lat),gpu("assiette-sup-s",c.lon,c.lat),jget(API+"municipality?insee="+encodeURIComponent(c.citycode)).then(function(d){return d.features.map(function(f){return f.properties})})]).then(function(r){
+    var nul=function(){return null};
+    Promise.all([gpu("document",c.lon,c.lat).catch(nul),gpu("zone-urba",c.lon,c.lat).catch(nul),gpu("assiette-sup-s",c.lon,c.lat,35000).catch(nul),jget(API+"municipality?insee="+encodeURIComponent(c.citycode)).then(function(d){return d.features.map(function(f){return f.properties})}).catch(nul)]).then(function(r){
+      if(r.every(function(x){return x===null}))throw new Error("indisponible");
       var a=analyserLocalisation(r[0],r[1],r[2],r[3]);
       if(a.protege==="oui")setRadio("protege","oui");else if(a.protege==="incertain")setRadio("protege","nsp");
       var h="<p><strong>"+esc(c.label)+"</strong></p><ul>"+a.lignes.map(function(x){return "<li>"+x+"</li>"}).join("")+"</ul>";
