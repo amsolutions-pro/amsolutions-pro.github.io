@@ -161,6 +161,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="projet" value="extension"><span class="pt"></span><span class="opt-t">Extension ou surélévation</span></label>
 <label class="opt"><input type="radio" name="projet" value="terrasse"><span class="pt"></span><span class="opt-t">Terrasse</span></label>
 <label class="opt"><input type="radio" name="projet" value="destination"><span class="pt"></span><span class="opt-t">Changement de destination</span></label>
+<label class="opt"><input type="radio" name="projet" value="ftoit"><span class="pt"></span><span class="opt-t">Fenêtre de toit</span></label>
 </div></fieldset>
 </section>
 
@@ -439,6 +440,26 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <label class="opt"><input type="radio" name="dfac" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
 </div></fieldset>
 </div>
+
+<div id="f-ftoit" hidden>
+<fieldset class="champ"><legend class="lbl">Que faites-vous ?</legend>
+<div class="choix">
+<label class="opt on"><input type="radio" name="ftact" value="creation" checked><span class="pt"></span><span class="opt-t">Créer une ouverture dans le toit</span></label>
+<label class="opt"><input type="radio" name="ftact" value="autre"><span class="pt"></span><span class="opt-t">Remplacer une fenêtre de toit par un autre modèle</span></label>
+<label class="opt"><input type="radio" name="ftact" value="ident"><span class="pt"></span><span class="opt-t">Remplacer une fenêtre de toit par la même</span></label>
+</div></fieldset>
+<fieldset class="champ"><legend class="lbl">Est-ce avec un aménagement des combles ?</legend>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="ftcomb" value="non" checked><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="ftcomb" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
+</div></fieldset>
+<fieldset class="champ"><legend class="lbl">Y a-t-il un changement de destination du bâtiment ?</legend>
+<span class="aide">Par exemple transformer un commerce ou une grange en habitation.</span>
+<div class="choix seg">
+<label class="opt on"><input type="radio" name="ftdest" value="non" checked><span class="pt"></span><span class="opt-t">Non</span></label>
+<label class="opt"><input type="radio" name="ftdest" value="oui"><span class="pt"></span><span class="opt-t">Oui</span></label>
+</div></fieldset>
+</div>
 </section>
 
 <div class="action">
@@ -452,7 +473,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 
 <aside class="preuves">
 <h2>Sources et vérification</h2>
-<p>Cet outil reprend les règles des pages Service-Public relues puis recontrôlées le <strong>6 novembre 2026</strong> (dates de vérification des fiches et chiffres) (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport, ravalement, isolation, garage, extension, terrasse, changement de destination). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
+<p>Cet outil reprend les règles des pages Service-Public relues puis recontrôlées le <strong>6 novembre 2026</strong> (dates de vérification des fiches et chiffres) (abri de jardin, piscine privative, clôtures, fenêtres, panneaux solaires, véranda, pergola et carport, ravalement, isolation, garage, extension, terrasse, changement de destination, fenêtre de toit). Il ne couvre pas tous les cas : en cas de doute, la mairie fait foi.</p>
 <ul>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F662">Abri de jardin (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31404">Piscine (Service-Public)</a></li>
@@ -467,6 +488,7 @@ button{font:inherit;font-size:16px;cursor:pointer}
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36777">Agrandissement ou surélévation (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36774">Terrasse (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F35336">Changement de destination ou d'usage (Service-Public)</a></li>
+<li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F36766">Fenêtre de toit (Service-Public)</a></li>
 <li><a href="https://www.service-public.gouv.fr/particuliers/vosdroits/F31473">Travaux extérieurs de la maison, dont panneaux au sol (Service-Public)</a></li>
 </ul>
 </aside>
@@ -609,6 +631,12 @@ function destination(de,vers,fac){
   if(fac==="oui")return r("PC","Changement de destination avec modification de la façade (création, suppression ou agrandissement d'une fenêtre ou d'une porte) et/ou de la structure porteuse : permis de construire.");
   return r("DP","Changement de destination sans modification de la façade ni de la structure porteuse : déclaration préalable.");
 }
+function fenetreToit(act,comb,dest){
+  if(act==="ident")return r("mairie","La fiche officielle traite la création d'une ouverture et le changement pour un autre modèle, mais pas le remplacement par une fenêtre de toit identique : renseignez-vous auprès du service urbanisme de votre mairie avant de commencer.");
+  if(dest==="oui")return r("PC","Création d'une ouverture ou changement de fenêtre de toit qui modifie la toiture, avec changement de destination ou de sous-destination du bâtiment : permis de construire.");
+  if(comb==="oui")return r("DP","Fenêtre de toit avec aménagement des combles (vous créez de la surface de plancher) : déclaration préalable.");
+  return r("DP","Créer une ouverture sur le toit ou changer une fenêtre de toit par un autre modèle modifie l'aspect extérieur du bâtiment : déclaration préalable.");
+}
 function esc(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
 function analyserLocalisation(doc,zone,sup,muni){
   var L=[],prot="aucun",ac1=0,ac4=0,ac2=0;
@@ -635,6 +663,9 @@ function calcul(v){
   if(v.projet==="abri"){
     var emp=v.l*v.w; if(!(emp>0) && !(v.sp>0)) return {err:"Indiquez la longueur et la largeur de l'abri."};
     var res=abri(v.atype,prot,emp,v.sp); res.detail="Surface retenue : "+fmt(Math.max(emp||0,v.sp||0))+" m² (la plus grande entre l'emprise au sol et la surface de plancher)."; res.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F662"; res.page="projets/abri-de-jardin/"; return res;
+  }
+  if(v.projet==="ftoit"){
+    var rf2=fenetreToit(v.ftact,v.ftcomb,v.ftdest); rf2.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F36766"; rf2.page="projets/fenetre-de-toit/"; return rf2;
   }
   if(v.projet==="destination"){
     var rd=destination(v.dde,v.dvers,v.dfac); rd.src="https://www.service-public.gouv.fr/particuliers/vosdroits/F35336"; rd.page="projets/changement-destination/"; return rd;
@@ -706,7 +737,7 @@ if(typeof document!=="undefined"){
   function radio(n){var e=document.querySelector("input[name='"+n+"']:checked");return e?e.value:""}
   function setRadio(n,v){var e=document.querySelector("input[name='"+n+"'][value='"+v+"']");if(e){e.checked=true;sync()}}
   function sync(){document.querySelectorAll(".opt").forEach(function(o){o.classList.toggle("on",o.querySelector("input").checked)})}
-  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";$("f-ravalement").hidden=p!=="ravalement";$("f-ite").hidden=p!=="ite";$("f-garage").hidden=p!=="garage";$("f-extension").hidden=p!=="extension";$("f-terrasse").hidden=p!=="terrasse";$("f-destination").hidden=p!=="destination";var tt=radio("ttype");$("t-emp-bloc").hidden=tt==="plain";$("t-zone-bloc").hidden=tt==="plain"||radio("tliaison")==="ind";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
+  function maj(){var p=radio("projet");$("f-abri").hidden=p!=="abri";$("f-piscine").hidden=p!=="piscine";$("f-cloture").hidden=p!=="cloture";$("f-fenetre").hidden=p!=="fenetre";$("f-solaire").hidden=p!=="solaire";$("f-veranda").hidden=p!=="veranda";$("f-pergola").hidden=p!=="pergola";$("f-ravalement").hidden=p!=="ravalement";$("f-ite").hidden=p!=="ite";$("f-garage").hidden=p!=="garage";$("f-extension").hidden=p!=="extension";$("f-terrasse").hidden=p!=="terrasse";$("f-destination").hidden=p!=="destination";$("f-ftoit").hidden=p!=="ftoit";var tt=radio("ttype");$("t-emp-bloc").hidden=tt==="plain";$("t-zone-bloc").hidden=tt==="plain"||radio("tliaison")==="ind";var pn=radio("pnat");$("pg-acc-bloc").hidden=pn==="ext";$("pg-zone-bloc").hidden=pn==="nouv";var se=radio("semp");$("s-neuf-bloc").hidden=se!=="toit";$("s-kw-bloc").hidden=se!=="sol";$("s-h-bloc").hidden=se!=="sol";$("p-dur-bloc").hidden=radio("ptype")!=="hs";var ct=radio("ctype");$("c-h-bloc").hidden=ct!=="mur";$("c-com-bloc").hidden=ct==="veg"||ct==="agri"||ct==="sout"}
   document.querySelectorAll(".opt input").forEach(function(i){i.addEventListener("change",function(){sync();maj()})});sync();maj();
   var GEO="https://data.geopf.fr/geocodage/search",API="https://apicarto.ign.fr/api/gpu/";
   function jget(u,ms){var c=new AbortController(),t=setTimeout(function(){c.abort()},ms||12000);return fetch(u,{signal:c.signal}).then(function(r){clearTimeout(t);if(!r.ok)throw new Error("http "+r.status);return r.json()})}
@@ -739,7 +770,7 @@ if(typeof document!=="undefined"){
   });
   $("go").addEventListener("click",function(){
     var n=function(i){return parseFloat(String($(i).value).replace(",","."))};
-    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot"),pnat:radio("pnat"),pemp:n("pg-emp"),pacc:radio("pacc"),pzone:radio("pzone"),rtype:radio("rtype"),rimm:radio("rimm"),rcom:radio("rcom"),isit:radio("isit"),ilim:radio("ilim"),gs:n("g-s"),gext:radio("gext"),xzone:radio("xzone"),xemp:n("x-emp"),xsp:n("x-sp"),xtot:n("x-tot"),xagri:radio("xagri"),tliaison:radio("tliaison"),ttype:radio("ttype"),temp:n("t-emp"),tzone:radio("tzone"),dde:$("d-de").value,dvers:$("d-vers").value,dfac:radio("dfac")});
+    var out=calcul({projet:radio("projet"),protege:radio("protege"),atype:radio("atype"),l:n("a-l"),w:n("a-w"),sp:n("a-sp"),ptype:radio("ptype"),ps:n("p-s"),pc:radio("pcouv"),pdur:radio("pdur"),ctype:radio("ctype"),h:n("c-h"),com:radio("ccom"),ftype:radio("ftype"),fdest:radio("fdest"),semp:radio("semp"),sneuf:radio("sneuf"),kw:n("s-kw"),sh:n("s-h"),vzone:radio("vzone"),vemp:n("v-emp"),vsp:n("v-sp"),vtot:n("v-tot"),pnat:radio("pnat"),pemp:n("pg-emp"),pacc:radio("pacc"),pzone:radio("pzone"),rtype:radio("rtype"),rimm:radio("rimm"),rcom:radio("rcom"),isit:radio("isit"),ilim:radio("ilim"),gs:n("g-s"),gext:radio("gext"),xzone:radio("xzone"),xemp:n("x-emp"),xsp:n("x-sp"),xtot:n("x-tot"),xagri:radio("xagri"),tliaison:radio("tliaison"),ttype:radio("ttype"),temp:n("t-emp"),tzone:radio("tzone"),dde:$("d-de").value,dvers:$("d-vers").value,dfac:radio("dfac"),ftact:radio("ftact"),ftcomb:radio("ftcomb"),ftdest:radio("ftdest")});
     var box=$("res");box.innerHTML=rendreResultat(out,racine);box.hidden=false;
     var red=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     box.scrollIntoView({behavior:red?"auto":"smooth",block:"start"});box.focus({preventScroll:true});
